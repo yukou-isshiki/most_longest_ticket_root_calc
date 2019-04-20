@@ -19,12 +19,9 @@ def root_calc():
     start = # 出発駅
     end = # 終着駅
     paths = gs.paths(start, end)
-    #print(w)
     del w
     gc.collect()
     for path in paths.min_iter():
-    #for path in paths.max_iter():
-        #print(path)
         root_print(path, start, end)
         break
 
@@ -47,4 +44,3 @@ def root_print(path, search, end):
 
 if __name__ == '__main__':
     root_calc()
-    #gs.maximal()
