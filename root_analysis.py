@@ -62,5 +62,6 @@ if __name__ == '__main__':
     end_number = station_dict[end]
     root_list = []
     creat_list = root_print(path, start_number, end_number, station_dict, root_list)
+    creat_list.append(end)
     most_longest_root = "→".join(creat_list)
     print(most_longest_root)
