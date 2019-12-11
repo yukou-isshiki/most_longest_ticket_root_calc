@@ -1,13 +1,23 @@
 # JRの最長経路を出すためのプログラム
 
- 路線データは本州のみ
+all_line_data JR全線全駅の駅間データを格納(2019年11月ダイヤ改正対応)
 
- ※ 現状、北海道と九州はルートに関わる路線の異動が無いため
+graphillion_data 上記のデータからgraphillion解析用に生成したデータ
 
- ※ 本州の路線データは2019年11月のダイヤ改正対応
+root_analysis.py 計算プログラム本体
 
- ※ このプログラムの実行には相当数のメモリを必要とします。
+read_root.py 駅名をid変換する(メモリー削減目的)
 
- GCP Comute Engine n1-highmem-64（vCPU x 64、メモリ 416 GB）で動作検証済
+railway_data_create.py 通常の路線生成プログラム
+
+start_railway_data_create.py 開始地点を含む路線生成プログラム
+
+end_railway_data_create.py 終端地点を含む路線生成プログラム
+
+
+
+GCP Comute Engine n1-highmem-96（96 vCPU、メモリ 624 GB）で動作検証済
+
+※ (2019/12/11現在、九州の路線データのみ上記でもメモリ不足で計算出来ず…)
 
  無改変での第三者への配布はおやめ下さい
