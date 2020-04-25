@@ -1,6 +1,6 @@
 # JRの最長経路を出すためのプログラム
 
-all_line_data JR全線全駅の駅間データを格納(2019年11月ダイヤ改正対応)
+all_line_data JR全線全駅の駅間データを格納(2020年3月ダイヤ改正・5月札沼線部分廃線対応)
 
 graphillion_data 上記のデータからgraphillion解析用に生成したデータ
 
