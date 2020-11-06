@@ -1,4 +1,5 @@
-file1 = # 読み込みたい路線データ
+erea = ""
+file1 = f"all_line_data/{erea}_all_line_data.txt"
 f = open(file1, "r")
 lines = f.readlines()
 station_dict = {}
@@ -26,9 +27,9 @@ for line in lines:
 start = ""
 end = ""
 distance = 0
-file2 = # 書き込みたい路線データ
+file2 = f"graphillion_data/{erea}_start_graphillion.txt"
 f2 = open(file2, "w")
-stop_station_list = # 分岐駅では無いが、路線名が途中で変わる駅(神戸・金沢等)や、強制的に分割したい駅を入れる
+stop_station_list = [] # 分岐駅では無いが、路線名が途中で変わる駅(神戸・金沢等)や、強制的に分割したい駅をリスト形式で入れる
 for line in lines:
     line_data = line.split(",")
     if start == "":

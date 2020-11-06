@@ -7,8 +7,8 @@ def change_station(station):
     return changed_station, end_dict
 
 
-
-file1 = # 読み込みたい路線データ
+erea = "" # 読み込みたいエリアを指定する
+file1 = f"all_line_data/{erea}_all_line_data.txt"
 f = open(file1, "r")
 lines = f.readlines()
 station_dict = {}
@@ -29,9 +29,9 @@ for key in keys:
 start = ""
 end = ""
 distance = 0
-file2 = # 書き込みたい路線データ
+file2 = f"graphillion_data/{erea}_end_graphillion.txt"
 f2 = open(file2, "w")
-stop_station_list = # 分岐駅では無いが、路線名が途中で変わる駅(神戸・金沢等)や、強制的に分割したい駅を入れる
+stop_station_list = [] # 分岐駅では無いが、路線名が途中で変わる駅(神戸・金沢等)や、強制的に分割したい駅をlist形式で入れる
 end_dict = {}
 for line in lines:
     line_data = line.split(",")
