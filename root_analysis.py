@@ -22,9 +22,8 @@ def root_calc(start, end, station_dict, filename):
     start = station_dict[start]
     end = station_dict[end]
     paths = gs.paths(start, end)
-    for path in paths.max_iter():
-        break
-    return path
+    max_path = next(paths.max_iter())
+    return max_path
 
 def root_print(path, search, end, station_dict, root_list):
     another = ""
