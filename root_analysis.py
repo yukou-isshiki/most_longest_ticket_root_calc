@@ -2,6 +2,7 @@ from graphillion import GraphSet as gs
 from decimal import Decimal
 import gc
 import read_root
+import re
 
 
 def root_calc(start, end, station_dict, filename):
@@ -34,7 +35,8 @@ def root_print(path, search, end, station_dict, root_list):
                 station = get_keys_from_value(station_dict, i[0])[0]
             else:
                 station = get_keys_from_value(station_dict, i[1])[0]
-            root_list.append(station)
+            if re.search("[0-9]", station[-1]) == None:
+                root_list.append(station)
             root_list_old = list(i)
             path.remove(i)
             root_list_old.remove(search)
