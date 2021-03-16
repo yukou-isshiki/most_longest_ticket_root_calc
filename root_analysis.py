@@ -31,10 +31,9 @@ def root_print(path, search, end, station_dict, root_list):
         if search in i:
             if search == i[0]:
                 station = get_keys_from_value(station_dict, i[0])[0]
-                root_list.append(station)
-            elif search == i[1]:
+            else:
                 station = get_keys_from_value(station_dict, i[1])[0]
-                root_list.append(station)
+            root_list.append(station)
             root_list_old = list(i)
             path.remove(i)
             root_list_old.remove(search)
