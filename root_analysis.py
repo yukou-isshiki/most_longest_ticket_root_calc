@@ -1,4 +1,5 @@
 from graphillion import GraphSet as gs
+from decimal import Decimal
 import gc
 import read_root
 
@@ -23,7 +24,7 @@ def root_calc(start, end, station_dict, filename):
     end = station_dict[end]
     paths = gs.paths(start, end)
     max_path = next(paths.max_iter())
-    return max_path
+    return max_path, univ
 
 def root_print(path, search, end, station_dict, root_list):
     another = ""
@@ -55,11 +56,17 @@ if __name__ == '__main__':
     end = # 終着駅
     filename = # 読み込みたいファイル名
     station_dict = read_root.dict_create(filename)
-    path = root_calc(start, end, station_dict, filename)
+    path, all_edge = root_calc(start, end, station_dict, filename)
     start_number = station_dict[start]
     end_number = station_dict[end]
     root_list = []
+    distance = Decimal("0.0")
+    for edge in all_edge:
+        for path_edge in path:
+            if edge[0] == path_edge[0] and edge[1] == path_edge[1]:
+                distance += Decimal(str(edge[2]))
     creat_list = root_print(path, start_number, end_number, station_dict, root_list)
     creat_list.append(end)
     most_longest_root = "→".join(creat_list)
     print(most_longest_root)
+    print(f"総距離{distance}km")
