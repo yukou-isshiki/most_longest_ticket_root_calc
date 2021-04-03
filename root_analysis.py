@@ -4,31 +4,89 @@ import gc
 import read_root
 import re
 
-
-def root_calc(start, end, station_dict, filename):
-    f = open(filename, "r")
-    lines = f.readlines()
-    f.close()
+def set_graph(s_s, e_s, s_dict, file):
     univ = []
     weights = {}
-    for line in lines:
-        dat = line.split(",")
-        dat[0] = station_dict[dat[0]]
-        dat[1] = station_dict[dat[1]]
-        edge = tuple(dat[0:2])
-        univ.append(edge)
-        weights[(dat[0],dat[1])] = float(dat[2])
-        del dat
-        del edge
-        gc.collect()
-    gs.set_universe(univ)
-    start = station_dict[start]
-    end = station_dict[end]
-    del station_dict
+    most_distance = Decimal("0.0")
+    longest_root = ""
+    start_number = ""
+    end_number = ""
+    with open(file) as f:
+        for line in f:
+            dat = line.split(",")
+            dat[0] = s_dict[dat[0]]
+            dat[1] = s_dict[dat[1]]
+            edge = tuple(dat[0:2])
+            univ.append(edge)
+            weights[(dat[0],dat[1])] = float(dat[2].replace("\n", ""))
+            del dat
+            del edge
+            gc.collect()
+    f.close()
+    del f
     gc.collect()
+    gs.set_universe(univ)
+    if s_s != "スタート" and e_s != "ゴール":
+        s = s_dict[s_s]
+        start_number = s
+        e = s_dict[e_s]
+        end_number = e
+        longest_root = root_calc(s, e, weights)
+        most_distance = calc_distance(longest_root, weights)
+    elif s_s != "スタート":
+        s = s_dict[s_s]
+        start_number = s
+        for e_key in s_dict:
+            e = s_dict[e_key]
+            if s == e:
+                continue
+            max_path = root_calc(s, e, weights)
+            distance = calc_distance(max_path, weights)
+            if most_distance < distance:
+                most_distance = distance
+                longest_root = max_path
+                end_number = e
+    elif e_s != "ゴール":
+        e = s_dict[e_s]
+        end_number = e
+        for s_key in s_dict:
+            s = s_dict[s_key]
+            if s == e:
+                continue
+            max_path = root_calc(s, e, weights)
+            distance = calc_distance(max_path, weights)
+            if most_distance < distance:
+                most_distance = distance
+                longest_root = max_path
+                start_number = s
+    else:
+        station_list = []
+        for s_key in s_dict:
+            s = s_dict[s_key]
+            station_list.append(s)
+            for e_key in s_dict:
+                e = s_dict[e_key]
+                if e in station_list:
+                    continue
+                max_path = root_calc(s, e, weights)
+                distance = calc_distance(max_path, weights)
+                if most_distance < distance:
+                    most_distance = distance
+                    longest_root = max_path
+                    start_number = s
+                    end_number = e
+    return longest_root, most_distance, start_number, end_number
+
+def root_calc(start, end, weights):
     paths = gs.paths(start, end)
     max_path = next(paths.max_iter(weights))
-    return max_path, weights
+    return max_path
+
+def calc_distance(path, weights):
+    distance = Decimal("0.0")
+    for edge in path:
+        distance += Decimal(str(weights[edge]))
+    return distance
 
 def root_print(path, search, end, station_dict, root_list):
     another = ""
@@ -56,20 +114,19 @@ def get_keys_from_value(d, val):
     return [k for k, v in d.items() if v == val]
 
 
+
 if __name__ == '__main__':
     start = # 出発駅
     end = # 終着駅
     filename = # 読み込みたいファイル名
     station_dict = read_root.dict_create(filename)
-    path, all_edge = root_calc(start, end, station_dict, filename)
-    start_number = station_dict[start]
-    end_number = station_dict[end]
-    root_list = []
-    distance = Decimal("0.0")
-    for edge in path:
-        distance += Decimal(str(all_edge[edge]))
-    creat_list = root_print(path, start_number, end_number, station_dict, root_list)
-    creat_list.append(end)
+    root, distance, s_number, e_number = set_graph(start, end, station_dict, filename)
+    creat_list = root_print(root, s_number, e_number, station_dict, [])
+    end_station = [k for k, v in station_dict.items() if v == e_number]
+    if re.search("[0-9]", end_station[0][-1]) != None:
+        creat_list.append(end_station[0][:-1])
+    else:
+        creat_list.append(end_station[0])
     most_longest_root = "→".join(creat_list)
     print(most_longest_root)
     print(f"総距離{distance}km")

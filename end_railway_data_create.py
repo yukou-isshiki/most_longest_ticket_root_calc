@@ -66,17 +66,4 @@ for end_station in end_list:
         write_line = ",".join(write_list)
         f2.write(write_line)
         f2.write("\n")
-        write_list = ["ゴール", f"{end_station}{i}", "0.0"]
-        write_line = ",".join(write_list)
-        f2.write(write_line)
-        f2.write("\n")
-
-tail_list = [k for k, v in station_dict.items() if v == 1]
-
-for tail in tail_list:
-    write_list = ["ゴール", tail, "0.0"]
-    write_line = ",".join(write_list)
-    f2.write(write_line)
-    f2.write("\n")
-
 f2.close()

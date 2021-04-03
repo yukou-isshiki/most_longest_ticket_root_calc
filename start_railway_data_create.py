@@ -51,17 +51,4 @@ for line in lines:
         end = ""
         distance = 0
 f.close()
-
-keys = [k for k, v in station_dict.items() if v == 1]
-for key in keys:
-    write_list = ["スタート", key, "0.0"]
-    write_line = ",".join(write_list)
-    f2.write(write_line)
-    f2.write("\n")
-
-for start_station in start_list:
-    write_list = ["スタート", start_station, "0.0"]
-    write_line = ",".join(write_list)
-    f2.write(write_line)
-    f2.write("\n")
 f2.close()
