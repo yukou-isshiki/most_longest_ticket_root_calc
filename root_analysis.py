@@ -69,6 +69,8 @@ def set_graph(s_s, e_s, s_dict, file):
                 if e in station_list:
                     continue
                 max_path = root_calc(s, e, weights)
+                if max_path == []:
+                    continue
                 distance = calc_distance(max_path, weights)
                 if most_distance < distance:
                     most_distance = distance
@@ -79,7 +81,12 @@ def set_graph(s_s, e_s, s_dict, file):
 
 def root_calc(start, end, weights):
     paths = gs.paths(start, end)
-    max_path = next(paths.max_iter(weights))
+    print(start, end)
+    try:
+        max_path = next(paths.max_iter(weights))
+    except StopIteration:
+        max_path = []
+        print(start, end, "pass")
     return max_path
 
 def calc_distance(path, weights):
