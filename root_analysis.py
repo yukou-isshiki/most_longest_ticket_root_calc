@@ -127,6 +127,7 @@ if __name__ == '__main__':
     end = # 終着駅
     filename = # 読み込みたいファイル名
     station_dict = read_root.dict_create(filename)
+    print(station_dict)
     root, distance, s_number, e_number = set_graph(start, end, station_dict, filename)
     creat_list = root_print(root, s_number, e_number, station_dict, [])
     end_station = [k for k, v in station_dict.items() if v == e_number]
